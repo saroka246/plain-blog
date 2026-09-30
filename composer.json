@@ -4,6 +4,9 @@
     "type": "project",
     "require": {
         "php": "^8.4",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "php-di/php-di": "^7.1",
         "smarty/smarty": "^5.0"
     },
     "require-dev": {
@@ -23,5 +26,16 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "cs:fix": "php-cs-fixer fix",
+        "cs:check": "php-cs-fixer fix --dry-run --diff",
+        "analyse": "phpstan analyse --no-progress",
+        "test": "phpunit",
+        "quality": [
+            "@cs:check",
+            "@analyse",
+            "@test"
+        ]
     }
 }
