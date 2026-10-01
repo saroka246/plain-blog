@@ -1,0 +1,12 @@
+{
+    "name": "plain-blog",
+    "private": true,
+    "scripts": {
+        "styles:build": "vite build",
+        "styles:watch": "vite build --watch"
+    },
+    "devDependencies": {
+        "sass": "^1.105.1",
+        "vite": "^8.3.2"
+    }
+}

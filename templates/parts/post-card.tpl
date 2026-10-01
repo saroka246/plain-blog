@@ -9,11 +9,13 @@
         >
     </a>
 
-    <h3><a href="/post/{$post.id}">{$post.title}</a></h3>
-    <p>{$post.description}</p>
+    <div class="post-card-content">
+        <h3><a href="/post/{$post.id}">{$post.title}</a></h3>
+        <p>{$post.description}</p>
 
-    <p>
-        Опубликовано: <time datetime="{$post.published_at|replace:' ':'T'}">{$post.published_at}</time>
-        Просмотры: {$post.views}
-    </p>
+        <p class="post-meta">
+            <span>Опубликовано: <time datetime="{$post.published_at|replace:' ':'T'}">{$post.published_at}</time></span>
+            <span>Просмотры: {$post.views}</span>
+        </p>
+    </div>
 </article>

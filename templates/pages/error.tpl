@@ -1,7 +1,9 @@
 {extends file='layout.tpl'}
 
 {block name='content'}
-    <h1>{$statusCode} — {$title}</h1>
-    <p>{$message}</p>
-    <p><a href="/">На главную</a></p>
+    <section class="error-page">
+        <h1>{$statusCode} — {$title}</h1>
+        <p>{$message}</p>
+        <p><a class="button" href="/">На главную</a></p>
+    </section>
 {/block}

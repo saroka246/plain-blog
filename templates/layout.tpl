@@ -4,18 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{$title|default:'Блог'}</title>
+    {include file='parts/styles.tpl'}
 </head>
 <body>
-    <header>
-        <a href="/">Блог</a>
+    <header class="site-header">
+        <div class="container">
+            <a class="site-title" href="/">Блог</a>
+        </div>
     </header>
 
-    <main>
+    <main class="site-main container">
         {block name='content'}{/block}
     </main>
 
-    <footer>
-        <p>Блог на PHP и Smarty.</p>
+    <footer class="site-footer">
+        <div class="container">
+            <p>Блог на PHP и Smarty.</p>
+        </div>
     </footer>
 </body>
 </html>

@@ -6,13 +6,13 @@
         <p>{$category.description}</p>
     </header>
 
-    <div class="category-posts">
+    <div class="post-grid">
         {foreach $categoryPosts as $post}
             {include file='parts/post-card.tpl' post=$post}
         {foreachelse}
-            <p>В этой категории пока нет постов.</p>
+            <p class="empty-state">В этой категории пока нет постов.</p>
         {/foreach}
     </div>
 
-    <p><a href="/category/{$category.id}">Все посты</a></p>
+    <p class="category-link"><a class="button" href="/category/{$category.id}">Все посты</a></p>
 </section>
