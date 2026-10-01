@@ -31,4 +31,18 @@ class CategoryRepository
 
         return $this->pdo->query($sql)->fetchAll();
     }
+
+    /**
+     * @return null|array{id: int, name: string, description: string}
+     */
+    public function findById(int $id): ?array
+    {
+        $prepared = $this->pdo->prepare('SELECT id, name, description FROM categories WHERE id = :id');
+        $prepared->bindValue('id', $id, PDO::PARAM_INT);
+        $prepared->execute();
+
+        $category = $prepared->fetch(PDO::FETCH_ASSOC);
+
+        return false === $category ? null : $category;
+    }
 }
