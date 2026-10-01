@@ -45,4 +45,27 @@ class CategoryRepository
 
         return false === $category ? null : $category;
     }
+
+    /**
+     * @return list<array{id: int, name: string, description: string}>
+     */
+    public function findByPost(int $postId): array
+    {
+        $sql = '
+            SELECT
+                categories.id,
+                categories.name,
+                categories.description
+            FROM categories
+            JOIN post_category ON post_category.category_id = categories.id
+            WHERE post_category.post_id = :post_id
+            ORDER BY categories.id ASC
+        ';
+
+        $prepared = $this->pdo->prepare($sql);
+        $prepared->bindValue('post_id', $postId, PDO::PARAM_INT);
+        $prepared->execute();
+
+        return $prepared->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

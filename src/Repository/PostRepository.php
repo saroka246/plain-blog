@@ -112,4 +112,89 @@ class PostRepository
 
         return $prepared->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * @return null|array{
+     *     id: int,
+     *     title: string,
+     *     description: string,
+     *     body: string,
+     *     image_path: string,
+     *     views: int,
+     *     published_at: string
+     * }
+     */
+    public function findById(int $id): ?array
+    {
+        $sql = '
+            SELECT
+                id,
+                title,
+                description,
+                body,
+                image_path,
+                views,
+                published_at
+            FROM posts
+            WHERE id = :id
+        ';
+
+        $prepared = $this->pdo->prepare($sql);
+        $prepared->bindValue('id', $id, PDO::PARAM_INT);
+        $prepared->execute();
+
+        $post = $prepared->fetch(PDO::FETCH_ASSOC);
+
+        return false === $post ? null : $post;
+    }
+
+    public function incrementViews(int $id): void
+    {
+        $prepared = $this->pdo->prepare('UPDATE posts SET views = views + 1 WHERE id = :id');
+        $prepared->bindValue('id', $id, PDO::PARAM_INT);
+        $prepared->execute();
+    }
+
+    /**
+     * @return list<array{
+     *     id: int,
+     *     title: string,
+     *     description: string,
+     *     image_path: string,
+     *     views: int,
+     *     published_at: string
+     * }>
+     */
+    public function findRelated(int $postId): array
+    {
+        $sql = '
+            SELECT
+                posts.id,
+                posts.title,
+                posts.description,
+                posts.image_path,
+                posts.views,
+                posts.published_at
+            FROM posts
+            JOIN (
+                SELECT
+                    post_category.post_id,
+                    COUNT(*) AS common_categories_count
+                FROM post_category
+                JOIN post_category AS current_categories
+                    ON current_categories.category_id = post_category.category_id
+                WHERE current_categories.post_id = :post_id
+                    AND post_category.post_id != current_categories.post_id
+                GROUP BY post_category.post_id
+            ) AS related_posts ON related_posts.post_id = posts.id
+            ORDER BY related_posts.common_categories_count DESC, posts.published_at DESC, posts.id DESC
+            LIMIT 3
+        ';
+
+        $prepared = $this->pdo->prepare($sql);
+        $prepared->bindValue('post_id', $postId, PDO::PARAM_INT);
+        $prepared->execute();
+
+        return $prepared->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
