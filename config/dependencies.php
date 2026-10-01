@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Database\DBConnectionFactory;
 use App\Http\Router;
+use Faker\Factory as FakerFactory;
+use Faker\Generator;
 use Smarty\Smarty;
 
 use function DI\create;
@@ -30,4 +32,10 @@ return [
     },
     Router::class => create(Router::class)
         ->constructor(require $rootDir . '/config/routes.php'),
+    Generator::class => static function (): Generator {
+        $faker = FakerFactory::create();
+        $faker->seed(42);
+
+        return $faker;
+    },
 ];

@@ -1,6 +1,7 @@
 .env
 /vendor/
 /var/
+/public/assets/images/
 /.idea/
 
 # PHP CS Fixer configuration
